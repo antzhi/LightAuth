@@ -5,7 +5,7 @@
 
 <?php
 
-define('AUTH_REALM', 'ituya.org');
+define('AUTH_REALM', 'mysite.com');
 define('AUTH_MAX_ACT_TIME', 3600 * 2); //2 hours
 define('AUTH_LOGIN_URL', 'login.php');
 
