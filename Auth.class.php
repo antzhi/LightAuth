@@ -1,11 +1,11 @@
 /**
- * Light Auth class
- * v0.1
- */
+* Light Auth class
+* v0.11
+*/
 
 <?php
 
-define('AUTH_REALM', 'mysite.com');
+define('AUTH_REALM', 'localhost');
 define('AUTH_MAX_ACT_TIME', 3600 * 2); //2 hours
 define('AUTH_LOGIN_URL', 'login.php');
 
@@ -30,13 +30,25 @@ abstract class Auth
      */
     public function getAuthSession()
     {
-        $auth = $_SESSION['AUTH'];
-        if (!is_array($auth)) {
+        $s = $_SESSION['AUTH'];
+        if (!is_array($s)) {
             //BIG TROUBLE!!
             exit(0);
         }
 
-        return $auth;
+        return $s;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setAuthSession($key, $value) {
+        if (!is_array($_SESSION['AUTH'])) {
+            //BIG TROUBLE!!
+            exit(0);
+        }
+        $_SESSION['AUTH'][$key] = $value;
     }
 
     /**
@@ -108,9 +120,9 @@ abstract class Auth
             return false;
         }
 
-        $auth['last_act_time'] = time();
-        $auth['last_ip'] = $_SERVER['REMOTE_ADDR'];
-        $auth['authority'] = $authority;
+        $this->setAuthSession('last_act_time', time());
+        $this->setAuthSession('last_ip', $_SERVER['REMOTE_ADDR']);
+        $this->setAuthSession('authority', $authority);
         $this->afterLogin();
         return true;
     }
